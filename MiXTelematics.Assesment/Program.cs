@@ -10,30 +10,39 @@ namespace MiXTelematics.Assesment
         static List<VehiclePosition> LoadVehiclePositions(string filePath)
         {
             List<VehiclePosition> vehiclePositions = new List<VehiclePosition>();
-
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
-            using (BinaryReader reader = new BinaryReader(fileStream))
+            try
             {
-                while (reader.BaseStream.Position < reader.BaseStream.Length)
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+                using (BinaryReader reader = new BinaryReader(fileStream))
                 {
-                    int vehicleId = reader.ReadInt32();
-
-                    StringBuilder registrationBuilder = new StringBuilder();
-                    char c;
-                    while ((c = reader.ReadChar()) != 0)
+                    while (reader.BaseStream.Position < reader.BaseStream.Length)
                     {
-                        registrationBuilder.Append(c);
+                        int vehicleId = reader.ReadInt32();
+
+                        StringBuilder registrationBuilder = new StringBuilder();
+                        char c;
+                        while ((c = reader.ReadChar()) != 0)
+                        {
+                            registrationBuilder.Append(c);
+                        }
+                        string vehicleRegistration = registrationBuilder.ToString();
+
+                        float latitude = reader.ReadSingle();
+                        float longitude = reader.ReadSingle();
+                        ulong recordedTimeUTCSeconds = reader.ReadUInt64();
+
+                        DateTime recordedTimeUTC = UnixTimeStampToDateTime(recordedTimeUTCSeconds);
+
+                        vehiclePositions.Add(new VehiclePosition(vehicleId, vehicleRegistration, latitude, longitude, recordedTimeUTC));
                     }
-                    string vehicleRegistration = registrationBuilder.ToString();
-
-                    float latitude = reader.ReadSingle();
-                    float longitude = reader.ReadSingle();
-                    ulong recordedTimeUTCSeconds = reader.ReadUInt64();
-
-                    DateTime recordedTimeUTC = UnixTimeStampToDateTime(recordedTimeUTCSeconds);
-
-                    vehiclePositions.Add(new VehiclePosition(vehicleId, vehicleRegistration, latitude, longitude, recordedTimeUTC));
                 }
+
+               
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error loading vehicle positions: {ex.Message}");
             }
 
             return vehiclePositions;
@@ -41,8 +50,12 @@ namespace MiXTelematics.Assesment
 
         static List<VehiclePosition> FindNearestVehiclePositions(string filePath, List<Coordinate> coordinates)
         {
-            // Load data and construct the kd-tree
             List<VehiclePosition> vehiclePositions = LoadVehiclePositions(filePath);
+            if (vehiclePositions.Count == 0)
+            {
+                Console.WriteLine("No vehicle positions loaded. Exiting...");
+                return new List<VehiclePosition>();
+            }
             VehicleLookup kdTree = new VehicleLookup(vehiclePositions);
 
             List<VehiclePosition> nearestPositions = new List<VehiclePosition>();
