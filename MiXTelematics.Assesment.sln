@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiXTelematics.Assesment", "MiXTelematics.Assesment\MiXTelematics.Assesment.csproj", "{197DB168-5002-47FA-8D29-DCB4E39B36B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{197DB168-5002-47FA-8D29-DCB4E39B36B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{197DB168-5002-47FA-8D29-DCB4E39B36B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{197DB168-5002-47FA-8D29-DCB4E39B36B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{197DB168-5002-47FA-8D29-DCB4E39B36B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B27AEF51-B883-4E73-922F-6872F8C79E4F}
+	EndGlobalSection
+EndGlobal
